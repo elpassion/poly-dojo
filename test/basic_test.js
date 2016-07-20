@@ -3,18 +3,22 @@ const assert = require('assert');
 const input = 
 `15
 xxxx
-VAL
-`
+VAL`
 
 const otherInput = 
 `16
 yyyy
-VAR
-`
+VAR`
+
+const multipleInput =
+`15
+yyyy
+ VAR
+ VAR`
 
 function parse(input) {
 	const lines = input.split("\n")
-	const output = lines[2].trim()
+	const output = lines.slice(2).map((elem) => elem.trim()).join("\n")
 
     return {lines: lines[0], indent: lines[1], output}
 }
@@ -33,10 +37,15 @@ describe('parser', () => {
 		const inputWithIndentation = 
 		`16
 		yyyy
-		 VAR
-		`
+		 VAR`
+		 
 		assert.equal(parse(input).output, "VAL");
 		assert.equal(parse(inputWithIndentation).output, "VAR");
 	});
+
+	it('should handle multiple lines input', () => {
+		const expectedOutput = "VAR\nVAR"
+		assert.equal(parse(multipleInput).output, expectedOutput)
+	})
 });
 
