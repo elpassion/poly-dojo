@@ -14,8 +14,9 @@ VAR
 
 function parse(input) {
 	const lines = input.split("\n")
+	const output = lines[2].trim()
 
-    return {lines: lines[0], indent: lines[1], output: lines[2]}
+    return {lines: lines[0], indent: lines[1], output}
 }
 
 describe('parser', () => {
@@ -29,10 +30,13 @@ describe('parser', () => {
 	});
 
 	it('shuould not indent first line', () => {
-		assert.equal(
-			parse(input).output, "VAL"
-		);
+		const inputWithIndentation = 
+		`16
+		yyyy
+		 VAR
+		`
+		assert.equal(parse(input).output, "VAL");
+		assert.equal(parse(inputWithIndentation).output, "VAR");
 	});
-
 });
 
